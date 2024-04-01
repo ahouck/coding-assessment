@@ -36,3 +36,23 @@
     transform: rotate(360deg);
   }
 }
+
+.notesLayout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  max-width: 100vw;
+  height: 100%;
+  /* align-items: center; */
+  /* justify-content: center; */
+}
+
+.leftContainer {
+  height: 100%;
+  width: 33%;
+}
+
+.noteEditorContainer {
+  width: 66%;
+  height: 100%;
+}
