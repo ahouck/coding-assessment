@@ -43,23 +43,30 @@ export const NotesLayout = () => {
 
   const refreshNotes = () => {
     const n = getNotes();
+    setNotes(n);
     return n;
   };
 
   const onDeleteNote = (noteId: string) => {
     deleteNote(noteId);
-    refreshNotes();
+    const n = refreshNotes();
+    setSelectedNote(n[0]);
   };
 
-  const onSaveNote = (
-    id: string | undefined,
-    plainText: string,
-    renderedText: string
-  ) => {
+  const onSaveNote = ({
+    id,
+    plainText,
+    displayText,
+  }: {
+    id: string | undefined;
+    plainText: string;
+    displayText: string;
+  }) => {
     if (id) {
-      updateNote(id, plainText, renderedText);
+      updateNote(id, plainText, displayText);
     } else {
-      createNote(plainText, renderedText);
+      const createdNote = createNote({plainText, displayText });
+      setSelectedNote(createdNote);
     }
     refreshNotes();
     return true;
@@ -73,8 +80,8 @@ export const NotesLayout = () => {
   return (
     <div className="notesLayout">
       <div id="sidebar_container" className="leftContainer">
-        <div>Search</div>
         <Input
+          placeholder={" Notes..."}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />

@@ -16,7 +16,6 @@ export const NotesList = ({
 }) => {
   return (
     <List
-    
       className="noteListContainer"
       itemLayout="horizontal"
       dataSource={notes}
@@ -28,7 +27,10 @@ export const NotesList = ({
             actions={[
               <DeleteOutlined
                 style={{ cursor: "grab/pointer" }}
-                onClick={() => onDelete(note.id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete(note.id)}
+                }
               />,
             ]}
             onClick={() => onSelect(note.id)}

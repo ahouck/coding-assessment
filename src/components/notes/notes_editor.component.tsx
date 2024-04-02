@@ -8,11 +8,11 @@ export const NotesEditor = ({
   onSave,
 }: {
   note?: Note;
-  onSave: (
-    id: string | undefined,
-    plainText: string,
-    renderedText: string
-  ) => boolean;
+  onSave: (params: {
+    id: string | undefined;
+    plainText: string;
+    displayText: string;
+  }) => boolean;
 }) => {
   const editorRef: MutableRefObject<Editor | null> = useRef<Editor>(null);
   const [messageApi, contextHolder] = message.useMessage();
@@ -22,6 +22,7 @@ export const NotesEditor = ({
     if (editorRef.current) {
       //@ts-ignore
       const count = editorRef?.current?.plugins.wordcount.body.getCharacterCount();
+
       if (count < 20) {
         error = `Notes require a minimum of 20 characters`;
       }
@@ -36,7 +37,15 @@ export const NotesEditor = ({
       message.open({ type: "error", content: error });
     } else {
       //@ts-ignore
-      onSave( note?.id, editorRef.current.getContent({ format: "text" }), editorRef.current.getContent());
+      onSave(
+        {
+          id: note?.id,
+          //@ts-ignore
+          plainText: editorRef.current.getContent({ format: "text" }),
+          //@ts-ignore
+          displayText: editorRef.current.getContent(),
+        }
+      );
       message.open({ type: "success", content: "Note successfully saved" });
     }
   };
@@ -48,9 +57,10 @@ export const NotesEditor = ({
         onInit={(evt, editor) => {
           (editorRef.current as unknown) = editor;
         }}
-        initialValue={note ? note.plainText : "...type your note here..."}
+        initialValue={note ? note.displayText : "...type your note here..."}
         init={{
-          height: 500,
+          // height: 500,
+          width: "60vw",
           menubar: false,
           // setup(editor) {
           // editor.on("keyup", (event) => {
@@ -78,3 +88,4 @@ export const NotesEditor = ({
     </div>
   );
 };
+

@@ -4,8 +4,8 @@ import { datasource } from "./datasource";
 const sortByDate = (n1: Note, n2: Note) =>
   n2.createdAt.getTime() - n1.createdAt.getTime();
 
-export const createNote = (plainText: string, displayText: string) => {
-  const note = new Note(plainText, displayText);
+export const createNote = ({plainText, displayText}: {plainText: string, displayText: string}) => {
+  const note = new Note({plainText, displayText});
   datasource.createNote(note);
   return note;
 };

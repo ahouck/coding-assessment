@@ -12,7 +12,13 @@ export class Note {
   displayText: string;
   createdAt: Date;
 
-  constructor(plainText: string, displayText: string) {
+  constructor({
+    plainText,
+    displayText,
+  }: {
+    plainText: string;
+    displayText: string;
+  }) {
     this.id = uuid();
     this.plainText = plainText;
     this.displayText = displayText;
